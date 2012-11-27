@@ -31,7 +31,8 @@ Install
 - Store modality script where you want it (e.g., ~/.tmux/)
 - Remove all bind-key commands from your .tmux.conf
 - Add the following to .tmux.conf:
-```
+
+```sh
 # Start tmux in insert mode:
 run-shell "/usr/bin/python2 /home/.../.tmux/modality.py -c -p empty insert"
 
