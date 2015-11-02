@@ -199,6 +199,7 @@ def mode_command():
 
     if use_mode_colors:
         binder.set_colors( command_mode_colors )
+    #binder.add_command( [ "display-message", "'[Command Mode]'" ] )
     return binder
 
 
@@ -281,6 +282,7 @@ def mode_default():
     binder.bind( "C-Left", [ "resize-pane", "-L" ], use_prefix = True ) # Needs repeat (-r)
     binder.bind( "C-Right", [ "resize-pane", "-R" ], use_prefix = True ) # Needs repeat (-r)
 
+    #binder.add_command( [ "display-message", "'[Default Mode]'" ] )
     return binder
 
 
@@ -312,6 +314,8 @@ def mode_insert():
 
     if use_mode_colors:
         binder.set_colors( insert_mode_colors )
+
+    #binder.add_command( [ "display-message", "'[Insert Mode]'" ] )
     return binder
 
 
@@ -477,6 +481,12 @@ class Binder( object ):
 
     #------------------------------------------------------------------------
 
+    # Add an extra command.
+    def add_command( self, command ):
+        self.extra_commands.append( command )
+
+    #------------------------------------------------------------------------
+
     # Add a binding.
     def bind( self, key, command = None, use_prefix = False, disabled = False ):
 
@@ -583,7 +593,7 @@ class Binder( object ):
     def set_colors( self, colors ):
 
         for name, value in colors.iteritems():
-            self.extra_commands.append( [ "set-option", "-g", name, value ] )
+            self.add_command( [ "set-option", "-q", "-g", name, value ] )
 
 
     #------------------------------------------------------------------------
