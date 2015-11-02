@@ -133,6 +133,8 @@ def mode_command():
     if not use_mode_colors:
         mc = ""
 
+    insert_mode = [ "run-shell", python + ' ' + modality + mc + ' insert -p command' ]
+
     binder.disable_all_keys()
 
     # "Pass-through" tmux defaults.  If pass-through feature is chosen,
@@ -145,7 +147,7 @@ def mode_command():
         binder.bind( "}", [ "swap-pane", "-D" ] )
         binder.bind( ":", [ "command-prompt" ] )
         #binder.bind( ",", [ "rename-window" ] )
-        binder.bind( "c", [ "new-window" ] )
+        #binder.bind( "c", [ "new-window" ] )
         binder.bind( "o", [ "select-pane", "-t", ":.+" ] )
         binder.bind( "Space", [ "next-layout" ] )
 
@@ -163,8 +165,9 @@ def mode_command():
     binder.bind( "8", [ "select-pane", "-t", "8" ] )
     binder.bind( "9", [ "select-pane", "-t", "9" ] )
     binder.bind( "0", [ "select-pane", "-t", "10" ] )
-    binder.bind( "n", [ "select-window", "-n" ] )
-    binder.bind( "p", [ "select-window", "-p" ] )
+    binder.bind( "H", [ "select-window", "-p" ] )
+    binder.bind( "L", [ "select-window", "-n" ] )
+    binder.bind( "n", [ "new-window" ] )
     binder.bind( "t", [ "clock-mode" ] )
     binder.bind( "M-1", [ "select-window", "-t", ":1" ] )
     binder.bind( "M-2", [ "select-window", "-t", ":2" ] )
@@ -176,18 +179,24 @@ def mode_command():
     binder.bind( "M-8", [ "select-window", "-t", ":8" ] )
     binder.bind( "M-9", [ "select-window", "-t", ":9" ] )
     binder.bind( "M-0", [ "select-window", "-t", ":10" ] )
+    binder.bind( "PageUp", [ "select-window", "-p" ] )
+    binder.bind( "PageDown", [ "select-window", "-n" ] )
+    binder.bind( "Enter", insert_mode )
+    binder.bind( "KPEnter", insert_mode )
 
     # Vim-like bindings:
-    binder.bind( "a", [ "run-shell", python + ' ' + modality + mc + ' insert -p command' ] )
+    binder.bind( "a", insert_mode )
+    binder.bind( "g", [ "select-window", "-n" ] )
     binder.bind( "h", [ "select-pane", "-L" ] )
-    binder.bind( "H", [ "resize-pane", "-L", "1" ] )
-    binder.bind( "i", [ "run-shell", python + ' ' + modality + mc + ' insert -p command' ] )
+    binder.bind( "C-H", [ "resize-pane", "-L", "1" ] )
+    binder.bind( "i", insert_mode )
     binder.bind( "j", [ "select-pane", "-D" ] )
-    binder.bind( "J", [ "resize-pane", "-D", "1" ] )
+    binder.bind( "C-J", [ "resize-pane", "-D", "1" ] )
     binder.bind( "k", [ "select-pane", "-U" ] )
-    binder.bind( "K", [ "resize-pane", "-U", "1" ] )
+    binder.bind( "C-K", [ "resize-pane", "-U", "1" ] )
     binder.bind( "l", [ "select-pane", "-R" ] )
-    binder.bind( "L", [ "resize-pane", "-R", "1" ] )
+    binder.bind( "C-L", [ "resize-pane", "-R", "1" ] )
+    binder.bind( "p", [ "paste-buffer" ] )
     binder.bind( "q", [ "detach-client" ] )
     binder.bind( "x", [ "confirm-before", "-p", "kill-pane #P? (y/n)", "kill-pane" ] )
     binder.bind( "Z", [ "confirm-before", "-p", "kill-window #W? (y/n)", "kill-window" ] )
